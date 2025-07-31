@@ -1,0 +1,2488 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angelo Monaco - Professional Portfolio</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+            color: #ffffff;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        /* Background Particles */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .particle {
+            position: absolute;
+            width: 2px;
+            height: 2px;
+            background: rgba(64, 224, 208, 0.6);
+            border-radius: 50%;
+            animation: float-particle 6s ease-in-out infinite;
+        }
+
+        @keyframes float-particle {
+            0%, 100% { transform: translateY(0px) translateX(0px); opacity: 0.3; }
+            50% { transform: translateY(-100px) translateX(50px); opacity: 1; }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Enhanced Editable Content Styles */
+        [contenteditable="true"] {
+            outline: none;
+            position: relative;
+            transition: all 0.3s ease;
+            border-radius: 8px;
+            padding: 4px 8px;
+            margin: -4px -8px;
+            /* Disabilita controllo ortografico e autocorrezione */
+            -webkit-user-select: text;
+            -moz-user-select: text;
+            -ms-user-select: text;
+            user-select: text;
+            spellcheck: false;
+            -webkit-spellcheck: false;
+            -moz-spellcheck: false;
+            autocorrect: off;
+            autocapitalize: off;
+            autocomplete: off;
+        }
+
+        [contenteditable="true"]:hover {
+            background: rgba(64, 224, 208, 0.15);
+            box-shadow: 0 0 0 1px rgba(64, 224, 208, 0.3);
+        }
+
+        [contenteditable="true"]:focus {
+            background: rgba(64, 224, 208, 0.2);
+            box-shadow: 0 0 0 2px rgba(64, 224, 208, 0.5);
+            transform: scale(1.02);
+        }
+
+        /* Photo Circle */
+        .profile-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .photo-circle {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #40e0d0, #ff6b6b);
+            padding: 4px;
+            position: relative;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 30px rgba(64, 224, 208, 0.4);
+        }
+
+        .photo-circle:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 40px rgba(64, 224, 208, 0.6);
+        }
+
+        .photo-inner {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #1a1a2e;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .photo-placeholder {
+            font-size: 4rem;
+            color: #40e0d0;
+            opacity: 0.7;
+        }
+
+        .photo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .photo-input {
+            display: none;
+        }
+
+        /* Header */
+        .header {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            background: radial-gradient(circle at 50% 50%, rgba(64, 224, 208, 0.1) 0%, transparent 50%);
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                radial-gradient(circle at 25% 25%, #40e0d0 0%, transparent 50%),
+                radial-gradient(circle at 75% 75%, #ff6b6b 0%, transparent 50%);
+            opacity: 0.03;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .floating-shapes {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .shape {
+            position: absolute;
+            background: linear-gradient(45deg, rgba(64, 224, 208, 0.1), rgba(255, 107, 107, 0.1));
+            border-radius: 50%;
+            animation: floatShapes 15s ease-in-out infinite;
+        }
+
+        .shape:nth-child(1) { width: 80px; height: 80px; top: 20%; left: 10%; animation-delay: 0s; }
+        .shape:nth-child(2) { width: 120px; height: 120px; top: 60%; right: 15%; animation-delay: 2s; }
+        .shape:nth-child(3) { width: 100px; height: 100px; bottom: 30%; left: 20%; animation-delay: 4s; }
+        .shape:nth-child(4) { width: 60px; height: 60px; top: 30%; right: 30%; animation-delay: 6s; }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(180deg); }
+        }
+
+        @keyframes floatShapes {
+            0%, 100% { transform: translateY(0px) translateX(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) translateX(20px) rotate(120deg); }
+            66% { transform: translateY(20px) translateX(-20px) rotate(240deg); }
+        }
+
+        .hero {
+            text-align: center;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 800;
+            background: linear-gradient(135deg, #40e0d0, #ff6b6b, #4ecdc4);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradient 4s ease infinite;
+            margin-bottom: 20px;
+            text-shadow: 0 0 30px rgba(64, 224, 208, 0.3);
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: #b8c6db;
+            margin-bottom: 30px;
+            font-weight: 300;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            margin-bottom: 40px;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(15px);
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .contact-item:hover {
+            transform: translateY(-3px);
+            background: rgba(64, 224, 208, 0.2);
+            box-shadow: 0 10px 30px rgba(64, 224, 208, 0.3);
+        }
+
+        .section {
+            padding: 100px 0;
+            position: relative;
+        }
+
+        .dynamic-section {
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 3rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 60px;
+            background: linear-gradient(135deg, #40e0d0, #ffffff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, #40e0d0, #ff6b6b);
+            border-radius: 2px;
+        }
+
+        /* Enhanced Objective Section */
+        .objective {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 50px;
+            margin: 60px 0;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .objective::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #40e0d0, #ff6b6b, #40e0d0);
+            background-size: 200% 100%;
+            animation: shimmer 3s ease-in-out infinite;
+        }
+
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+
+        .objective::after {
+            content: '';
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            width: 100px;
+            height: 100px;
+            background: radial-gradient(circle, rgba(64, 224, 208, 0.1), transparent);
+            border-radius: 50%;
+        }
+
+        .objective p {
+            font-size: 1.3rem;
+            line-height: 1.8;
+            color: #e2e8f0;
+            text-align: center;
+        }
+
+        /* Enhanced Skills Grid */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .skill-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .skill-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #40e0d0, transparent);
+            transform: translateX(-100%);
+            transition: transform 0.8s ease;
+        }
+
+        .skill-card::after {
+            content: '';
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(255, 107, 107, 0.2), transparent);
+            border-radius: 50%;
+        }
+
+        .skill-card:hover::before {
+            transform: translateX(100%);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            background: rgba(64, 224, 208, 0.1);
+            box-shadow: 0 25px 50px rgba(64, 224, 208, 0.2);
+        }
+
+        .skill-card h3 {
+            color: #40e0d0;
+            margin-bottom: 20px;
+            font-size: 1.4rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .skill-card h3::before {
+            content: '⚡';
+            font-size: 1.3rem;
+        }
+
+        .skill-list {
+            list-style: none;
+        }
+
+        .skill-item {
+            padding: 10px 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            cursor: pointer;
+        }
+
+        .skill-item::before {
+            content: '▸';
+            color: #40e0d0;
+            font-weight: bold;
+            transition: transform 0.3s ease;
+        }
+
+        .skill-item:hover {
+            color: #40e0d0;
+            padding-left: 15px;
+            background: rgba(64, 224, 208, 0.05);
+            border-radius: 8px;
+        }
+
+        .skill-item:hover::before {
+            transform: translateX(8px);
+        }
+
+        /* Enhanced Add/Remove Skill Buttons */
+        .skill-actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-add, .btn-remove, .btn-add-card {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            font-weight: 500;
+        }
+
+        .btn-add {
+            background: rgba(64, 224, 208, 0.2);
+            color: #40e0d0;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+        }
+
+        .btn-remove {
+            background: rgba(255, 107, 107, 0.2);
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-add-card {
+            background: rgba(138, 43, 226, 0.2);
+            color: #8a2be2;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .btn-add:hover, .btn-add-card:hover {
+            background: rgba(64, 224, 208, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(64, 224, 208, 0.2);
+        }
+
+        .btn-remove:hover {
+            background: rgba(255, 107, 107, 0.3);
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.2);
+        }
+
+        /* Add Card Button per sezioni */
+        .add-card-btn {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(138, 43, 226, 0.2));
+            color: #8a2be2;
+            border: 1px solid rgba(138, 43, 226, 0.4);
+            padding: 14px 28px;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 700;
+            font-size: 0.95rem;
+            transition: all 0.4s ease;
+            opacity: 0;
+            z-index: 10;
+            backdrop-filter: blur(15px);
+            box-shadow: 0 4px 15px rgba(138, 43, 226, 0.2);
+        }
+
+        .skills-grid:hover .add-card-btn,
+        .experience-timeline:hover .add-card-btn,
+        .tools-grid:hover .add-card-btn {
+            opacity: 1;
+            transform: translateX(-50%) translateY(-5px);
+        }
+
+        .add-card-btn:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.5), rgba(138, 43, 226, 0.3));
+            transform: translateX(-50%) translateY(-8px) scale(1.08);
+            box-shadow: 0 12px 30px rgba(138, 43, 226, 0.4);
+            border-color: rgba(138, 43, 226, 0.6);
+        }
+
+        .add-card-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 30px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .add-card-btn:hover::before {
+            opacity: 1;
+        }
+
+        /* Enhanced Experience Timeline */
+        .experience-timeline {
+            position: relative;
+            margin: 50px 0;
+        }
+
+        .timeline-line {
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 4px;
+            background: linear-gradient(to bottom, #40e0d0, #ff6b6b);
+            transform: translateX(-50%);
+            box-shadow: 0 0 15px rgba(64, 224, 208, 0.4);
+            border-radius: 2px;
+        }
+
+        .timeline-item {
+            position: relative;
+            margin: 60px 0;
+            opacity: 0;
+            animation: slideIn 0.8s ease forwards;
+        }
+
+        .timeline-item:nth-child(even) {
+            animation-delay: 0.2s;
+        }
+
+        .timeline-item:nth-child(odd) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .timeline-content {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 35px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            width: 45%;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .timeline-content:hover {
+            transform: scale(1.03);
+            background: rgba(255, 255, 255, 0.08);
+            box-shadow: 0 20px 40px rgba(64, 224, 208, 0.1);
+        }
+
+        .timeline-item:nth-child(even) .timeline-content {
+            margin-left: 55%;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            top: 40px;
+            width: 24px;
+            height: 24px;
+            background: linear-gradient(135deg, #40e0d0, #ff6b6b);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            box-shadow: 0 0 25px rgba(64, 224, 208, 0.6);
+            animation: pulse 2s infinite;
+            border: 4px solid rgba(255, 255, 255, 0.2);
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(64, 224, 208, 0.7); }
+            70% { box-shadow: 0 0 0 15px rgba(64, 224, 208, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(64, 224, 208, 0); }
+        }
+
+        .company-name {
+            color: #ff6b6b;
+            font-size: 1.6rem;
+            font-weight: 700;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .company-name::before {
+            content: '🏢';
+            font-size: 1.3rem;
+        }
+
+        .role-title {
+            color: #40e0d0;
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .role-title::before {
+            content: '💼';
+            font-size: 1.1rem;
+        }
+
+        .experience-list {
+            list-style: none;
+            margin-top: 25px;
+        }
+
+        .experience-item {
+            padding: 12px 0;
+            border-left: 3px solid transparent;
+            padding-left: 18px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .experience-item::before {
+            content: '✓';
+            color: #40e0d0;
+            font-weight: bold;
+            margin-top: 3px;
+            min-width: 18px;
+        }
+
+        .experience-item:hover {
+            border-left-color: #40e0d0;
+            background: rgba(64, 224, 208, 0.1);
+            transform: translateX(8px);
+            border-radius: 8px;
+        }
+
+        /* Enhanced Tools Section */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 50px;
+            position: relative;
+        }
+
+        .tool-category {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 30px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .tool-category::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #40e0d0, #ff6b6b);
+        }
+
+        .tool-category:hover {
+            transform: translateY(-8px) scale(1.02);
+            background: rgba(64, 224, 208, 0.1);
+            box-shadow: 0 20px 40px rgba(64, 224, 208, 0.2);
+        }
+
+        .tool-category h4 {
+            color: #ff6b6b;
+            margin-bottom: 18px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .tool-category h4::before {
+            content: '🛠️';
+            font-size: 1.1rem;
+        }
+
+        .tool-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .tool-tag {
+            background: rgba(64, 224, 208, 0.2);
+            color: #40e0d0;
+            padding: 8px 16px;
+            border-radius: 25px;
+            font-size: 0.9rem;
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .tool-tag:hover {
+            background: rgba(64, 224, 208, 0.3);
+            transform: scale(1.1);
+            box-shadow: 0 8px 20px rgba(64, 224, 208, 0.2);
+        }
+
+        /* Enhanced CTA Section */
+        .cta {
+            text-align: center;
+            padding: 100px 0;
+            background: radial-gradient(circle, rgba(64, 224, 208, 0.1) 0%, transparent 70%);
+            position: relative;
+        }
+
+        .cta::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(64,224,208,0.1)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+            opacity: 0.3;
+        }
+
+        .cta-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Controls */
+        .controls {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .control-btn {
+            padding: 15px 25px;
+            background: rgba(64, 224, 208, 0.2);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(64, 224, 208, 0.3);
+            color: #40e0d0;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            box-shadow: 0 10px 25px rgba(64, 224, 208, 0.2);
+            white-space: nowrap;
+        }
+
+        .control-btn:hover {
+            background: rgba(64, 224, 208, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 15px 35px rgba(64, 224, 208, 0.3);
+        }
+
+        .control-btn.add-section {
+            background: rgba(255, 107, 107, 0.2);
+            border-color: rgba(255, 107, 107, 0.3);
+            color: #ff6b6b;
+        }
+
+        .control-btn.add-section:hover {
+            background: rgba(255, 107, 107, 0.3);
+        }
+
+        /* Section Management Controls */
+        .section-management {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            display: flex;
+            gap: 8px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 10;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dynamic-section:hover .section-management {
+            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        .section-btn {
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .section-btn.move-up {
+            background: linear-gradient(135deg, rgba(64, 224, 208, 0.3), rgba(64, 224, 208, 0.2));
+            color: #40e0d0;
+        }
+
+        .section-btn.move-up:hover {
+            background: linear-gradient(135deg, rgba(64, 224, 208, 0.5), rgba(64, 224, 208, 0.3));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(64, 224, 208, 0.4);
+        }
+
+        .section-btn.move-down {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.3), rgba(138, 43, 226, 0.2));
+            color: #8a2be2;
+        }
+
+        .section-btn.move-down:hover {
+            background: linear-gradient(135deg, rgba(138, 43, 226, 0.5), rgba(138, 43, 226, 0.3));
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(138, 43, 226, 0.4);
+        }
+
+        .section-btn.delete {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 107, 107, 0.2));
+            color: #ff6b6b;
+            position: relative;
+        }
+
+        .section-btn.delete:hover {
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.6), rgba(255, 107, 107, 0.4));
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 8px 25px rgba(255, 107, 107, 0.5);
+        }
+
+        .section-btn.delete::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 12px;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .section-btn.delete:hover::before {
+            opacity: 1;
+        }
+        
+        .section-btn:disabled {
+            opacity: 0.4;
+            cursor: not-allowed;
+            transform: none !important;
+            background: rgba(128, 128, 128, 0.2) !important;
+            color: rgba(255, 255, 255, 0.4) !important;
+            box-shadow: none !important;
+        }
+
+        /* Card management buttons */
+        .card-management {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            display: flex;
+            gap: 6px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 6px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .skill-card:hover .card-management,
+        .tool-category:hover .card-management,
+        .timeline-item:hover .card-management {
+            opacity: 1;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-btn {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.9rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.3), rgba(255, 107, 107, 0.2));
+            color: #ff6b6b;
+            border: 1px solid rgba(255, 107, 107, 0.3);
+            position: relative;
+        }
+
+        .card-btn:hover {
+            transform: scale(1.1);
+            background: linear-gradient(135deg, rgba(255, 107, 107, 0.5), rgba(255, 107, 107, 0.3));
+            box-shadow: 0 6px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .card-btn::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 8px;
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .card-btn:hover::before {
+            opacity: 1;
+        }
+
+        // Auto-save indicator migliorato con indicatore di errore
+        .auto-save-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(76, 175, 80, 0.2);
+            color: #4CAF50;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1001;
+        }
+
+        .auto-save-indicator.show {
+            opacity: 1;
+        }
+
+        .auto-save-indicator.error {
+            background: rgba(244, 67, 54, 0.2);
+            color: #f44336;
+        }
+
+        /* Delete animations */
+        .section-removing {
+            animation: slideOut 0.4s ease forwards;
+            pointer-events: none;
+        }
+
+        @keyframes slideOut {
+            from {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+                max-height: 1000px;
+            }
+            to {
+                opacity: 0;
+                transform: translateY(-50px) scale(0.95);
+                max-height: 0;
+                padding: 0;
+                margin: 0;
+            }
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 2000;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .modal.show {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 40px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            animation: slideUp 0.3s ease;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .modal-header {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: #40e0d0;
+            text-align: center;
+        }
+
+        .section-types {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .section-type {
+            background: rgba(255, 255, 255, 0.05);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+
+        .section-type:hover {
+            background: rgba(64, 224, 208, 0.1);
+            border-color: rgba(64, 224, 208, 0.3);
+            transform: scale(1.02);
+        }
+
+        .section-type.selected {
+            background: rgba(64, 224, 208, 0.2);
+            border-color: rgba(64, 224, 208, 0.5);
+        }
+
+        .section-type-icon {
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+
+        .section-type-title {
+            font-weight: 600;
+            color: #40e0d0;
+            margin-bottom: 5px;
+        }
+
+        .section-type-desc {
+            font-size: 0.9rem;
+            color: #b8c6db;
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, #40e0d0, #ff6b6b);
+            color: white;
+        }
+
+        .modal-btn.secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: #b8c6db;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .modal-btn:hover {
+            transform: translateY(-2px);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .profile-container {
+                flex-direction: column;
+            }
+
+            .photo-circle {
+                width: 150px;
+                height: 150px;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .timeline-line {
+                left: 20px;
+            }
+
+            .timeline-content {
+                width: calc(100% - 60px);
+                margin-left: 60px !important;
+            }
+
+            .timeline-dot {
+                left: 20px;
+            }
+
+            .skills-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .tools-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .controls {
+                bottom: 20px;
+                right: 20px;
+            }
+
+            .control-btn {
+                padding: 12px 20px;
+                font-size: 0.9rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Auto-save indicator -->
+    <div class="auto-save-indicator" id="autoSaveIndicator">✓ Modifiche salvate automaticamente</div>
+
+    <!-- Background Particles -->
+    <div class="particles" id="particles"></div>
+
+    <!-- Controls -->
+    <div class="controls">
+        <button class="control-btn add-section" onclick="showAddSectionModal()">➕ Aggiungi Sezione</button>
+    </div>
+
+    <!-- Modal per aggiungere sezioni -->
+    <div class="modal" id="addSectionModal">
+        <div class="modal-content">
+            <div class="modal-header">Aggiungi Nuova Sezione</div>
+            
+            <div class="section-types">
+                <div class="section-type" data-type="skills" onclick="selectSectionType(this)">
+                    <div class="section-type-icon">⚡</div>
+                    <div class="section-type-title">Competenze</div>
+                    <div class="section-type-desc">Sezione con skills organizzate in card</div>
+                </div>
+                
+                <div class="section-type" data-type="experience" onclick="selectSectionType(this)">
+                    <div class="section-type-icon">💼</div>
+                    <div class="section-type-title">Esperienza</div>
+                    <div class="section-type-desc">Timeline con esperienze lavorative</div>
+                </div>
+                
+                <div class="section-type" data-type="tools" onclick="selectSectionType(this)">
+                    <div class="section-type-icon">🛠️</div>
+                    <div class="section-type-title">Strumenti</div>
+                    <div class="section-type-desc">Grid di tecnologie e tool</div>
+                </div>
+                
+                <div class="section-type" data-type="education" onclick="selectSectionType(this)">
+                    <div class="section-type-icon">🎓</div>
+                    <div class="section-type-title">Formazione</div>
+                    <div class="section-type-desc">Percorso formativo e certificazioni</div>
+                </div>
+                
+                <div class="section-type" data-type="projects" onclick="selectSectionType(this)">
+                    <div class="section-type-icon">🚀</div>
+                    <div class="section-type-title">Progetti</div>
+                    <div class="section-type-desc">Portfolio progetti realizzati</div>
+                </div>
+                
+                <div class="section-type" data-type="achievements" onclick="selectSectionType(this)">
+                    <div class="section-type-icon">🏆</div>
+                    <div class="section-type-title">Riconoscimenti</div>
+                    <div class="section-type-desc">Premi e risultati ottenuti</div>
+                </div>
+            </div>
+            
+            <div class="modal-buttons">
+                <button class="modal-btn secondary" onclick="hideAddSectionModal()">Annulla</button>
+                <button class="modal-btn primary" onclick="addNewSection()">Aggiungi Sezione</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Header -->
+    <section class="header">
+        <div class="floating-shapes">
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+            <div class="shape"></div>
+        </div>
+        <div class="container">
+            <div class="hero">
+                <div class="profile-container">
+                    <div class="photo-circle" onclick="document.getElementById('photoInput').click()">
+                        <div class="photo-inner">
+                            <div class="photo-placeholder" id="photoPlaceholder">📷</div>
+                            <img class="photo-img" id="photoImg" style="display: none;" />
+                        </div>
+                    </div>
+                    <input type="file" id="photoInput" class="photo-input" accept="image/*" onchange="handlePhotoUpload(event)">
+                    
+                    <div>
+                        <h1 contenteditable="true" data-key="name">ANGELO MONACO</h1>
+                        <p class="subtitle" contenteditable="true" data-key="subtitle">Senior Consultant • Project & Demand Management Expert</p>
+                    </div>
+                </div>
+                
+                <div class="contact-info">
+                    <div class="contact-item">
+                        <span>📧</span>
+                        <span contenteditable="true" data-key="email">angelomonaco1997@libero.it</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>📱</span>
+                        <span contenteditable="true" data-key="phone">327 190 4146</span>
+                    </div>
+                    <div class="contact-item">
+                        <span>💼</span>
+                        <span contenteditable="true" data-key="linkedin">LinkedIn</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Objective -->
+    <section class="section">
+        <div class="container">
+            <div class="objective">
+                <h2 class="section-title" contenteditable="true" data-key="objective-title">Obiettivo Professionale</h2>
+                <p contenteditable="true" data-key="objective-text">Crescere in un contesto corporate dinamico, contribuendo all'evoluzione delle strategie ICT attraverso analisi, governance e supporto alla pianificazione, mettendo a disposizione le mie competenze per migliorare il controllo delle performance e l'allineamento con gli obiettivi aziendali.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contenitore per sezioni dinamiche -->
+    <div id="dynamicSections">
+        <!-- Skills -->
+        <section class="section dynamic-section" data-section-id="skills-1">
+            <div class="section-management">
+                <button class="section-btn move-up" onclick="moveSectionUp('skills-1')" title="Sposta Su">⬆</button>
+                <button class="section-btn move-down" onclick="moveSectionDown('skills-1')" title="Sposta Giù">⬇</button>
+                <button class="section-btn delete" onclick="deleteSection('skills-1')" title="Elimina">×</button>
+            </div>
+            <div class="container">
+                <h2 class="section-title" contenteditable="true" data-key="skills-title">Competenze Principali</h2>
+                <div class="skills-grid">
+                    <div class="skill-card">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi card">×</button>
+                        </div>
+                        <h3 contenteditable="true" data-key="skill1-title">Project Management</h3>
+                        <ul class="skill-list" data-list="skill1">
+                            <li class="skill-item" contenteditable="true">PMO & Project Management</li>
+                            <li class="skill-item" contenteditable="true">Metodologie Agile & Waterfall</li>
+                            <li class="skill-item" contenteditable="true">Gestione portfolio progetti</li>
+                            <li class="skill-item" contenteditable="true">Monitoraggio performance</li>
+                        </ul>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addSkill(this)">+ Skill</button>
+                            <button class="btn-remove" onclick="removeSkill(this)">- Skill</button>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi card">×</button>
+                        </div>
+                        <h3 contenteditable="true" data-key="skill2-title">Business Analysis</h3>
+                        <ul class="skill-list" data-list="skill2">
+                            <li class="skill-item" contenteditable="true">Demand Management & Governance ICT</li>
+                            <li class="skill-item" contenteditable="true">Analisi funzionale</li>
+                            <li class="skill-item" contenteditable="true">Raccolta requisiti</li>
+                            <li class="skill-item" contenteditable="true">Stakeholder engagement</li>
+                        </ul>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addSkill(this)">+ Skill</button>
+                            <button class="btn-remove" onclick="removeSkill(this)">- Skill</button>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi card">×</button>
+                        </div>
+                        <h3 contenteditable="true" data-key="skill3-title">Financial Management</h3>
+                        <ul class="skill-list" data-list="skill3">
+                            <li class="skill-item" contenteditable="true">Budgeting & Forecast</li>
+                            <li class="skill-item" contenteditable="true">Analisi scostamenti</li>
+                            <li class="skill-item" contenteditable="true">Controllo delle spese</li>
+                            <li class="skill-item" contenteditable="true">Reporting finanziario</li>
+                        </ul>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addSkill(this)">+ Skill</button>
+                            <button class="btn-remove" onclick="removeSkill(this)">- Skill</button>
+                        </div>
+                    </div>
+                    <div class="skill-card">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi card">×</button>
+                        </div>
+                        <h3 contenteditable="true" data-key="skill4-title">Data & Analytics</h3>
+                        <ul class="skill-list" data-list="skill4">
+                            <li class="skill-item" contenteditable="true">KPI & Dashboarding</li>
+                            <li class="skill-item" contenteditable="true">Analisi dati avanzata</li>
+                            <li class="skill-item" contenteditable="true">Business Intelligence</li>
+                            <li class="skill-item" contenteditable="true">Reportistica automatizzata</li>
+                        </ul>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addSkill(this)">+ Skill</button>
+                            <button class="btn-remove" onclick="removeSkill(this)">- Skill</button>
+                        </div>
+                    </div>
+                    <button class="add-card-btn" onclick="addSkillCard(this)">➕ Aggiungi Card Competenza</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Experience -->
+        <section class="section dynamic-section" data-section-id="experience-1">
+            <div class="section-management">
+                <button class="section-btn move-up" onclick="moveSectionUp('experience-1')" title="Sposta Su">⬆</button>
+                <button class="section-btn move-down" onclick="moveSectionDown('experience-1')" title="Sposta Giù">⬇</button>
+                <button class="section-btn delete" onclick="deleteSection('experience-1')" title="Elimina">×</button>
+            </div>
+            <div class="container">
+                <h2 class="section-title" contenteditable="true" data-key="experience-title">Esperienza Professionale</h2>
+                <div class="experience-timeline">
+                    <div class="timeline-line"></div>
+                    
+                    <div class="timeline-item">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeTimelineItem(this)" title="Rimuovi esperienza">×</button>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="company-name" contenteditable="true" data-key="company1">Azienda Corrente</div>
+                            <div class="role-title" contenteditable="true" data-key="role1">Senior Consultant</div>
+                            <p contenteditable="true" data-key="period1">2023 - Presente</p>
+                            <ul class="experience-list">
+                                <li class="experience-item" contenteditable="true">Gestione portfolio progetti ICT</li>
+                                <li class="experience-item" contenteditable="true">Implementazione metodologie PMO</li>
+                                <li class="experience-item" contenteditable="true">Analisi performance e KPI</li>
+                            </ul>
+                            <div class="skill-actions">
+                                <button class="btn-add" onclick="addExperience(this)">+ Punto</button>
+                                <button class="btn-remove" onclick="removeExperience(this)">- Punto</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeTimelineItem(this)" title="Rimuovi esperienza">×</button>
+                        </div>
+                        <div class="timeline-dot"></div>
+                        <div class="timeline-content">
+                            <div class="company-name" contenteditable="true" data-key="company2">Esperienza Precedente</div>
+                            <div class="role-title" contenteditable="true" data-key="role2">Project Manager</div>
+                            <p contenteditable="true" data-key="period2">2021 - 2023</p>
+                            <ul class="experience-list">
+                                <li class="experience-item" contenteditable="true">Coordinamento team multidisciplinari</li>
+                                <li class="experience-item" contenteditable="true">Gestione budget e timeline</li>
+                                <li class="experience-item" contenteditable="true">Stakeholder management</li>
+                            </ul>
+                            <div class="skill-actions">
+                                <button class="btn-add" onclick="addExperience(this)">+ Punto</button>
+                                <button class="btn-remove" onclick="removeExperience(this)">- Punto</button>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="add-card-btn" onclick="addTimelineItem(this)">➕ Aggiungi Esperienza</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Tools -->
+        <section class="section dynamic-section" data-section-id="tools-1">
+            <div class="section-management">
+                <button class="section-btn move-up" onclick="moveSectionUp('tools-1')" title="Sposta Su">⬆</button>
+                <button class="section-btn move-down" onclick="moveSectionDown('tools-1')" title="Sposta Giù">⬇</button>
+                <button class="section-btn delete" onclick="deleteSection('tools-1')" title="Elimina">×</button>
+            </div>
+            <div class="container">
+                <h2 class="section-title" contenteditable="true" data-key="tools-title">Strumenti e Tecnologie</h2>
+                <div class="tools-grid">
+                    <div class="tool-category">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeToolCategory(this)" title="Rimuovi categoria">×</button>
+                        </div>
+                        <h4 contenteditable="true" data-key="tool-cat1">Project Management</h4>
+                        <div class="tool-tags">
+                            <span class="tool-tag" contenteditable="true">Microsoft Project</span>
+                            <span class="tool-tag" contenteditable="true">Jira</span>
+                            <span class="tool-tag" contenteditable="true">Confluence</span>
+                            <span class="tool-tag" contenteditable="true">Smartsheet</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addTool(this)">+ Tool</button>
+                            <button class="btn-remove" onclick="removeTool(this)">- Tool</button>
+                        </div>
+                    </div>
+                    
+                    <div class="tool-category">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeToolCategory(this)" title="Rimuovi categoria">×</button>
+                        </div>
+                        <h4 contenteditable="true" data-key="tool-cat2">Analytics & BI</h4>
+                        <div class="tool-tags">
+                            <span class="tool-tag" contenteditable="true">Power BI</span>
+                            <span class="tool-tag" contenteditable="true">Tableau</span>
+                            <span class="tool-tag" contenteditable="true">Excel Avanzato</span>
+                            <span class="tool-tag" contenteditable="true">SQL</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addTool(this)">+ Tool</button>
+                            <button class="btn-remove" onclick="removeTool(this)">- Tool</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-category">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeToolCategory(this)" title="Rimuovi categoria">×</button>
+                        </div>
+                        <h4 contenteditable="true" data-key="tool-cat3">Collaboration</h4>
+                        <div class="tool-tags">
+                            <span class="tool-tag" contenteditable="true">Microsoft 365</span>
+                            <span class="tool-tag" contenteditable="true">Teams</span>
+                            <span class="tool-tag" contenteditable="true">SharePoint</span>
+                            <span class="tool-tag" contenteditable="true">Slack</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addTool(this)">+ Tool</button>
+                            <button class="btn-remove" onclick="removeTool(this)">- Tool</button>
+                        </div>
+                    </div>
+
+                    <div class="tool-category">
+                        <div class="card-management">
+                            <button class="card-btn" onclick="removeToolCategory(this)" title="Rimuovi categoria">×</button>
+                        </div>
+                        <h4 contenteditable="true" data-key="tool-cat4">Development</h4>
+                        <div class="tool-tags">
+                            <span class="tool-tag" contenteditable="true">Git</span>
+                            <span class="tool-tag" contenteditable="true">Visual Studio Code</span>
+                            <span class="tool-tag" contenteditable="true">Azure DevOps</span>
+                            <span class="tool-tag" contenteditable="true">Docker</span>
+                        </div>
+                        <div class="skill-actions">
+                            <button class="btn-add" onclick="addTool(this)">+ Tool</button>
+                            <button class="btn-remove" onclick="removeTool(this)">- Tool</button>
+                        </div>
+                    </div>
+                    <button class="add-card-btn" onclick="addToolCategory(this)">➕ Aggiungi Categoria</button>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- CTA -->
+    <section class="cta">
+        <div class="container">
+            <div class="cta-content">
+                <h2 class="section-title" contenteditable="true" data-key="cta-title">Collaboriamo Insieme</h2>
+                <p contenteditable="true" data-key="cta-text" style="font-size: 1.2rem; margin-bottom: 40px; color: #b8c6db;">Interessato a discutere di opportunità professionali o progetti innovativi?</p>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        // Stato centralizzato dell'applicazione
+        const AppState = {
+            portfolioData: {},
+            sectionOrder: ['skills-1', 'experience-1', 'tools-1'],
+            sectionCounter: 1,
+            selectedSectionType: null,
+            autoSaveTimer: null,
+            dynamicContent: {}
+        };
+
+        // Templates per nuove sezioni
+        const sectionTemplates = {
+            skills: {
+                title: 'Nuove Competenze',
+                content: `
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="card-management">
+                                <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi card">×</button>
+                            </div>
+                            <h3 contenteditable="true">Nuova Competenza</h3>
+                            <ul class="skill-list">
+                                <li class="skill-item" contenteditable="true">Skill 1</li>
+                                <li class="skill-item" contenteditable="true">Skill 2</li>
+                                <li class="skill-item" contenteditable="true">Skill 3</li>
+                            </ul>
+                            <div class="skill-actions">
+                                <button class="btn-add" onclick="addSkill(this)">+ Skill</button>
+                                <button class="btn-remove" onclick="removeSkill(this)">- Skill</button>
+                            </div>
+                        </div>
+                        <button class="add-card-btn" onclick="addSkillCard(this)">➕ Aggiungi Card Competenza</button>
+                    </div>
+                `
+            },
+            experience: {
+                title: 'Nuova Esperienza',
+                content: `
+                    <div class="experience-timeline">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-item">
+                            <div class="card-management">
+                                <button class="card-btn" onclick="removeTimelineItem(this)" title="Rimuovi esperienza">×</button>
+                            </div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="company-name" contenteditable="true">Nome Azienda</div>
+                                <div class="role-title" contenteditable="true">Ruolo</div>
+                                <p contenteditable="true">Periodo</p>
+                                <ul class="experience-list">
+                                    <li class="experience-item" contenteditable="true">Responsabilità 1</li>
+                                    <li class="experience-item" contenteditable="true">Responsabilità 2</li>
+                                </ul>
+                                <div class="skill-actions">
+                                    <button class="btn-add" onclick="addExperience(this)">+ Punto</button>
+                                    <button class="btn-remove" onclick="removeExperience(this)">- Punto</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-card-btn" onclick="addTimelineItem(this)">➕ Aggiungi Esperienza</button>
+                    </div>
+                `
+            },
+            tools: {
+                title: 'Nuovi Strumenti',
+                content: `
+                    <div class="tools-grid">
+                        <div class="tool-category">
+                            <div class="card-management">
+                                <button class="card-btn" onclick="removeToolCategory(this)" title="Rimuovi categoria">×</button>
+                            </div>
+                            <h4 contenteditable="true">Categoria Tool</h4>
+                            <div class="tool-tags">
+                                <span class="tool-tag" contenteditable="true">Tool 1</span>
+                                <span class="tool-tag" contenteditable="true">Tool 2</span>
+                                <span class="tool-tag" contenteditable="true">Tool 3</span>
+                            </div>
+                            <div class="skill-actions">
+                                <button class="btn-add" onclick="addTool(this)">+ Tool</button>
+                                <button class="btn-remove" onclick="removeTool(this)">- Tool</button>
+                            </div>
+                        </div>
+                        <button class="add-card-btn" onclick="addToolCategory(this)">➕ Aggiungi Categoria</button>
+                    </div>
+                `
+            },
+            education: {
+                title: 'Formazione',
+                content: `
+                    <div class="experience-timeline">
+                        <div class="timeline-line"></div>
+                        <div class="timeline-item">
+                            <div class="card-management">
+                                <button class="card-btn" onclick="removeTimelineItem(this)" title="Rimuovi formazione">×</button>
+                            </div>
+                            <div class="timeline-dot"></div>
+                            <div class="timeline-content">
+                                <div class="company-name" contenteditable="true">Istituto/Università</div>
+                                <div class="role-title" contenteditable="true">Titolo di Studio</div>
+                                <p contenteditable="true">Anno di conseguimento</p>
+                                <ul class="experience-list">
+                                    <li class="experience-item" contenteditable="true">Materie principali</li>
+                                    <li class="experience-item" contenteditable="true">Progetti/Tesi</li>
+                                </ul>
+                                <div class="skill-actions">
+                                    <button class="btn-add" onclick="addExperience(this)">+ Punto</button>
+                                    <button class="btn-remove" onclick="removeExperience(this)">- Punto</button>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-card-btn" onclick="addTimelineItem(this)">➕ Aggiungi Formazione</button>
+                    </div>
+                `
+            },
+            projects: {
+                title: 'Progetti',
+                content: `
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="card-management">
+                                <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi progetto">×</button>
+                            </div>
+                            <h3 contenteditable="true">Nome Progetto</h3>
+                            <p contenteditable="true" style="margin-bottom: 15px; color: #b8c6db;">Descrizione breve del progetto e delle tecnologie utilizzate</p>
+                            <ul class="skill-list">
+                                <li class="skill-item" contenteditable="true">Caratteristica 1</li>
+                                <li class="skill-item" contenteditable="true">Caratteristica 2</li>
+                                <li class="skill-item" contenteditable="true">Tecnologie usate</li>
+                            </ul>
+                            <div class="skill-actions">
+                                <button class="btn-add" onclick="addSkill(this)">+ Caratteristica</button>
+                                <button class="btn-remove" onclick="removeSkill(this)">- Caratteristica</button>
+                            </div>
+                        </div>
+                        <button class="add-card-btn" onclick="addSkillCard(this)">➕ Aggiungi Progetto</button>
+                    </div>
+                `
+            },
+            achievements: {
+                title: 'Riconoscimenti',
+                content: `
+                    <div class="skills-grid">
+                        <div class="skill-card">
+                            <div class="card-management">
+                                <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi riconoscimento">×</button>
+                            </div>
+                            <h3 contenteditable="true">Premio/Certificazione</h3>
+                            <p contenteditable="true" style="margin-bottom: 15px; color: #b8c6db;">Descrizione del riconoscimento ottenuto</p>
+                            <ul class="skill-list">
+                                <li class="skill-item" contenteditable="true">Ente certificatore</li>
+                                <li class="skill-item" contenteditable="true">Data conseguimento</li>
+                                <li class="skill-item" contenteditable="true">Validità</li>
+                            </ul>
+                            <div class="skill-actions">
+                                <button class="btn-add" onclick="addSkill(this)">+ Dettaglio</button>
+                                <button class="btn-remove" onclick="removeSkill(this)">- Dettaglio</button>
+                            </div>
+                        </div>
+                        <button class="add-card-btn" onclick="addSkillCard(this)">➕ Aggiungi Riconoscimento</button>
+                    </div>
+                `
+            }
+        };
+
+        // Inizializzazione dell'applicazione
+        document.addEventListener('DOMContentLoaded', function() {
+            initializeApp();
+        });
+
+        function initializeApp() {
+            loadFromStorage();
+            createParticles();
+            setupEditableElements();
+            setupEventListeners();
+            setupAutoSave();
+        }
+
+        // Sistema di salvataggio ULTRA-ROBUSTO con persistenza garantita
+        function setupAutoSave() {
+            // Salvataggio immediato ad ogni modifica
+            setInterval(() => {
+                forceSaveToStorage();
+            }, 500); // Salvataggio ogni 500ms
+            
+            // Salvataggio su tutti gli eventi critici
+            window.addEventListener('beforeunload', forceSaveToStorage);
+            window.addEventListener('blur', forceSaveToStorage);
+            window.addEventListener('focus', loadFromStorage);
+            window.addEventListener('pageshow', loadFromStorage);
+            window.addEventListener('pagehide', forceSaveToStorage);
+            
+            // Salvataggio anche su click e keyup per catturare ogni modifica
+            document.addEventListener('click', () => setTimeout(forceSaveToStorage, 100));
+            document.addEventListener('keyup', () => setTimeout(forceSaveToStorage, 100));
+            document.addEventListener('input', () => setTimeout(forceSaveToStorage, 50));
+        }
+
+        function forceSaveToStorage() {
+            try {
+                collectAllData();
+                saveDynamicContent();
+                
+                const dataToSave = {
+                    portfolioData: AppState.portfolioData,
+                    dynamicContent: AppState.dynamicContent,
+                    sectionOrder: AppState.sectionOrder,
+                    sectionCounter: AppState.sectionCounter,
+                    timestamp: new Date().toISOString(),
+                    version: '2.0'
+                };
+                
+                const dataString = JSON.stringify(dataToSave);
+                
+                // TRIPLO SALVATAGGIO per massima sicurezza
+                try {
+                    localStorage.setItem('angeloMonacoPortfolio', dataString);
+                    localStorage.setItem('angeloMonacoPortfolio_backup1', dataString);
+                    localStorage.setItem('angeloMonacoPortfolio_backup2', dataString);
+                } catch(e) {
+                    console.warn('localStorage non disponibile, usando fallback');
+                }
+                
+                // Backup in sessionStorage
+                try {
+                    sessionStorage.setItem('angeloMonacoPortfolio', dataString);
+                } catch(e) {
+                    console.warn('sessionStorage non disponibile');
+                }
+                
+                // Backup in memoria globale
+                window.portfolioBackup = dataString;
+                AppState.lastSavedData = dataString;
+                
+                // Salvataggio in cookie come ultimo fallback
+                try {
+                    document.cookie = `angeloPortfolio=${encodeURIComponent(dataString.substring(0, 4000))}; expires=${new Date(Date.now() + 86400000).toUTCString()}; path=/`;
+                } catch(e) {
+                    console.warn('Cookie non disponibile');
+                }
+                
+                // Mostra indicatore di salvataggio
+                showAutoSaveIndicator();
+                
+            } catch (error) {
+                showErrorIndicator();
+            }
+        }
+
+        function saveToStorage() {
+            forceSaveToStorage(); // Reindirizza al salvataggio forzato
+        }
+
+        function loadFromStorage() {
+            try {
+                let savedData = null;
+                let dataString = null;
+                
+                // CARICAMENTO MULTI-LIVELLO per massima affidabilità
+                // 1. Prova localStorage principale
+                try {
+                    dataString = localStorage.getItem('angeloMonacoPortfolio');
+                    if (dataString) {
+                        savedData = JSON.parse(dataString);
+                    }
+                } catch(e) {}
+                
+                // 2. Prova backup localStorage
+                if (!savedData) {
+                    try {
+                        dataString = localStorage.getItem('angeloMonacoPortfolio_backup1') || 
+                                   localStorage.getItem('angeloMonacoPortfolio_backup2');
+                        if (dataString) {
+                            savedData = JSON.parse(dataString);
+                        }
+                    } catch(e) {}
+                }
+                
+                // 3. Prova sessionStorage
+                if (!savedData) {
+                    try {
+                        dataString = sessionStorage.getItem('angeloMonacoPortfolio');
+                        if (dataString) {
+                            savedData = JSON.parse(dataString);
+                        }
+                    } catch(e) {}
+                }
+                
+                // 4. Prova backup in memoria globale
+                if (!savedData && window.portfolioBackup) {
+                    try {
+                        savedData = JSON.parse(window.portfolioBackup);
+                    } catch(e) {}
+                }
+                
+                // 5. Prova AppState backup
+                if (!savedData && AppState.lastSavedData) {
+                    try {
+                        savedData = JSON.parse(AppState.lastSavedData);
+                    } catch(e) {}
+                }
+                
+                // 6. Ultima risorsa: cookie
+                if (!savedData) {
+                    try {
+                        const cookies = document.cookie.split(';');
+                        const portfolioCookie = cookies.find(c => c.trim().startsWith('angeloPortfolio='));
+                        if (portfolioCookie) {
+                            const cookieValue = portfolioCookie.split('=')[1];
+                            dataString = decodeURIComponent(cookieValue);
+                            if (dataString) {
+                                savedData = JSON.parse(dataString);
+                            }
+                        }
+                    } catch(e) {}
+                }
+                
+                if (savedData) {
+                    AppState.portfolioData = savedData.portfolioData || {};
+                    AppState.dynamicContent = savedData.dynamicContent || {};
+                    AppState.sectionOrder = savedData.sectionOrder || AppState.sectionOrder;
+                    AppState.sectionCounter = savedData.sectionCounter || AppState.sectionCounter;
+                    
+                    // Ripristina tutto il contenuto
+                    setTimeout(() => {
+                        restoreContent();
+                        restoreDynamicContent();
+                        restoreSectionOrder();
+                    }, 100);
+                }
+                
+            } catch (error) {
+                showErrorIndicator();
+            }
+        }
+
+        function restoreContent() {
+            Object.keys(AppState.portfolioData).forEach(key => {
+                if (key === 'photo') {
+                    const photoImg = document.getElementById('photoImg');
+                    const photoPlaceholder = document.getElementById('photoPlaceholder');
+                    if (photoImg && photoPlaceholder && AppState.portfolioData[key]) {
+                        photoImg.src = AppState.portfolioData[key];
+                        photoImg.style.display = 'block';
+                        photoPlaceholder.style.display = 'none';
+                    }
+                } else {
+                    const element = document.querySelector(`[data-key="${key}"]`);
+                    if (element && AppState.portfolioData[key]) {
+                        element.textContent = AppState.portfolioData[key];
+                    }
+                }
+            });
+        }
+
+        function restoreSectionOrder() {
+            const dynamicSections = document.getElementById('dynamicSections');
+            const sections = {};
+            
+            // Raccoglie tutte le sezioni esistenti
+            dynamicSections.querySelectorAll('[data-section-id]').forEach(section => {
+                const sectionId = section.getAttribute('data-section-id');
+                sections[sectionId] = section;
+                section.remove();
+            });
+            
+            // Riordina secondo l'ordine salvato
+            AppState.sectionOrder.forEach(sectionId => {
+                if (sections[sectionId]) {
+                    dynamicSections.appendChild(sections[sectionId]);
+                }
+            });
+        }
+
+        function showAutoSaveIndicator() {
+            const indicator = document.getElementById('autoSaveIndicator');
+            indicator.textContent = '✅ Modifiche salvate automaticamente';
+            indicator.classList.remove('error');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+            }, 1500);
+        }
+
+        function showErrorIndicator() {
+            const indicator = document.getElementById('autoSaveIndicator');
+            indicator.textContent = '⚠️ Errore nel salvataggio - Riprovo...';
+            indicator.classList.add('error');
+            indicator.classList.add('show');
+            setTimeout(() => {
+                indicator.classList.remove('show');
+                indicator.classList.remove('error');
+            }, 3000);
+        }
+
+        function collectAllData() {
+            // Salva tutti gli elementi editabili con maggiore robustezza
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                const key = element.getAttribute('data-key');
+                if (key) {
+                    AppState.portfolioData[key] = element.textContent || element.innerHTML;
+                }
+            });
+            
+            // Salva anche l'ordine corrente delle sezioni dal DOM
+            const sections = document.querySelectorAll('.dynamic-section');
+            AppState.sectionOrder = Array.from(sections).map(section => 
+                section.getAttribute('data-section-id')
+            ).filter(id => id);
+        }
+
+        function saveDynamicContent() {
+            // Salva la struttura delle sezioni dinamiche
+            const dynamicSections = document.querySelectorAll('.dynamic-section');
+            
+            dynamicSections.forEach(section => {
+                const sectionId = section.getAttribute('data-section-id');
+                if (!sectionId) return;
+                
+                AppState.dynamicContent[sectionId] = {
+                    type: getSectionType(section),
+                    html: section.innerHTML,
+                    title: section.querySelector('.section-title')?.textContent || 'Sezione',
+                    position: AppState.sectionOrder.indexOf(sectionId)
+                };
+            });
+        }
+
+        function getSectionType(section) {
+            if (section.querySelector('.skills-grid')) return 'skills';
+            if (section.querySelector('.experience-timeline')) return 'experience';
+            if (section.querySelector('.tools-grid')) return 'tools';
+            return 'generic';
+        }
+
+        function restoreDynamicContent() {
+            const dynamicSectionsContainer = document.getElementById('dynamicSections');
+            if (!dynamicSectionsContainer) return;
+            
+            // Salva le sezioni esistenti
+            const existingSections = {};
+            dynamicSectionsContainer.querySelectorAll('.dynamic-section').forEach(section => {
+                const sectionId = section.getAttribute('data-section-id');
+                if (sectionId) {
+                    existingSections[sectionId] = section;
+                }
+            });
+            
+            // Pulisci il container
+            dynamicSectionsContainer.innerHTML = '';
+            
+            // Ricostruisci le sezioni nell'ordine corretto
+            AppState.sectionOrder.forEach((sectionId, index) => {
+                let section = existingSections[sectionId];
+                
+                // Se la sezione non esiste nel DOM ma esiste nei dati salvati, ricostruiscila
+                if (!section && AppState.dynamicContent[sectionId]) {
+                    section = document.createElement('section');
+                    section.className = 'section dynamic-section';
+                    section.setAttribute('data-section-id', sectionId);
+                    section.innerHTML = AppState.dynamicContent[sectionId].html;
+                }
+                
+                // Se la sezione esiste ma il contenuto è diverso, aggiornala
+                if (section && AppState.dynamicContent[sectionId]) {
+                    if (section.innerHTML !== AppState.dynamicContent[sectionId].html) {
+                        section.innerHTML = AppState.dynamicContent[sectionId].html;
+                    }
+                }
+                
+                if (section) {
+                    dynamicSectionsContainer.appendChild(section);
+                    setupEditableElementsInSection(section);
+                }
+            });
+        }
+
+        // Creazione particelle animate CORRETTA
+        function createParticles() {
+            const particleContainer = document.getElementById('particles');
+            particleContainer.innerHTML = '';
+            
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 6 + 's';
+                particle.style.animationDuration = (Math.random() * 4 + 4) + 's';
+                particleContainer.appendChild(particle);
+            }
+        }
+
+        // Setup elementi editabili con attributi anti-correzione
+        function setupEditableElements() {
+            const editableElements = document.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                element.addEventListener('blur', handleContentChange);
+                element.addEventListener('input', handleContentChange);
+                
+                // Disabilita correzione automatica
+                element.setAttribute('spellcheck', 'false');
+                element.setAttribute('autocorrect', 'off');
+                element.setAttribute('autocapitalize', 'off');
+                element.setAttribute('autocomplete', 'off');
+            });
+        }
+
+        function handleContentChange(event) {
+            const key = event.target.getAttribute('data-key');
+            if (key) {
+                AppState.portfolioData[key] = event.target.textContent || event.target.innerHTML;
+            }
+            
+            // SALVATAGGIO ULTRA-IMMEDIATO per modifiche di testo
+            forceSaveToStorage();
+        }
+
+        // Setup event listeners globali
+        function setupEventListeners() {
+            document.getElementById('addSectionModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    hideAddSectionModal();
+                }
+            });
+
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape') {
+                    hideAddSectionModal();
+                }
+            });
+        }
+
+        // Gestione upload foto CORRETTA
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (file && file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const photoImg = document.getElementById('photoImg');
+                    const photoPlaceholder = document.getElementById('photoPlaceholder');
+                    
+                    photoImg.src = e.target.result;
+                    photoImg.style.display = 'block';
+                    photoPlaceholder.style.display = 'none';
+                    
+                    AppState.portfolioData.photo = e.target.result;
+                    saveToStorage();
+                };
+                reader.readAsDataURL(file);
+            } else {
+                alert('Seleziona un file immagine valido (JPG, PNG, GIF, etc.)');
+            }
+        }
+
+        // FUNZIONI SKILLS - CON SALVATAGGIO IMMEDIATO RINFORZATO
+        function addSkill(button) {
+            const skillCard = button.closest('.skill-card');
+            const skillList = skillCard.querySelector('.skill-list');
+            
+            const newSkill = document.createElement('li');
+            newSkill.className = 'skill-item';
+            newSkill.contentEditable = 'true';
+            newSkill.textContent = 'Nuova competenza';
+            
+            newSkill.addEventListener('blur', handleContentChange);
+            newSkill.addEventListener('input', handleContentChange);
+            
+            skillList.appendChild(newSkill);
+            newSkill.focus();
+            
+            // SALVATAGGIO IMMEDIATO
+            forceSaveToStorage();
+        }
+
+        function removeSkill(button) {
+            const skillCard = button.closest('.skill-card');
+            const skillList = skillCard.querySelector('.skill-list');
+            const skills = skillList.querySelectorAll('.skill-item');
+            
+            if (skills.length > 1) {
+                skills[skills.length - 1].remove();
+                // SALVATAGGIO IMMEDIATO
+                forceSaveToStorage();
+            }
+        }
+
+        function addSkillCard(button) {
+            const skillsGrid = button.closest('.skills-grid');
+            
+            const newCard = document.createElement('div');
+            newCard.className = 'skill-card';
+            newCard.innerHTML = `
+                <div class="card-management">
+                    <button class="card-btn" onclick="removeSkillCard(this)" title="Rimuovi card">×</button>
+                </div>
+                <h3 contenteditable="true" spellcheck="false" autocorrect="off">Nuova Competenza</h3>
+                <ul class="skill-list">
+                    <li class="skill-item" contenteditable="true" spellcheck="false" autocorrect="off">Skill 1</li>
+                    <li class="skill-item" contenteditable="true" spellcheck="false" autocorrect="off">Skill 2</li>
+                </ul>
+                <div class="skill-actions">
+                    <button class="btn-add" onclick="addSkill(this)">+ Skill</button>
+                    <button class="btn-remove" onclick="removeSkill(this)">- Skill</button>
+                </div>
+            `;
+            
+            skillsGrid.insertBefore(newCard, button);
+            setupEditableElementsInSection(newCard);
+            
+            // SALVATAGGIO IMMEDIATO
+            forceSaveToStorage();
+        }
+
+        function removeSkillCard(button) {
+            if (confirm('Rimuovere questa card?')) {
+                const card = button.closest('.skill-card');
+                card.classList.add('section-removing');
+                setTimeout(() => {
+                    if (card.parentNode) {
+                        card.remove();
+                        // SALVATAGGIO IMMEDIATO
+                        forceSaveToStorage();
+                    }
+                }, 400);
+            }
+        }
+
+        // Aggiorna tutte le altre funzioni per includere il salvataggio immediato
+        function addExperience(button) {
+            const experienceContent = button.closest('.timeline-content');
+            const experienceList = experienceContent.querySelector('.experience-list');
+            
+            const newExperience = document.createElement('li');
+            newExperience.className = 'experience-item';
+            newExperience.contentEditable = 'true';
+            newExperience.textContent = 'Nuova responsabilità';
+            
+            newExperience.addEventListener('blur', handleContentChange);
+            newExperience.addEventListener('input', handleContentChange);
+            
+            experienceList.appendChild(newExperience);
+            newExperience.focus();
+            forceSaveToStorage();
+        }
+
+        function removeExperience(button) {
+            const experienceContent = button.closest('.timeline-content');
+            const experienceList = experienceContent.querySelector('.experience-list');
+            const experiences = experienceList.querySelectorAll('.experience-item');
+            
+            if (experiences.length > 1) {
+                experiences[experiences.length - 1].remove();
+                forceSaveToStorage();
+            }
+        }
+
+        function addTimelineItem(button) {
+            const timeline = button.closest('.experience-timeline');
+            
+            const newItem = document.createElement('div');
+            newItem.className = 'timeline-item';
+            newItem.innerHTML = `
+                <div class="card-management">
+                    <button class="card-btn" onclick="removeTimelineItem(this)" title="Rimuovi esperienza">×</button>
+                </div>
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <div class="company-name" contenteditable="true" spellcheck="false" autocorrect="off">Nome Azienda</div>
+                    <div class="role-title" contenteditable="true" spellcheck="false" autocorrect="off">Ruolo</div>
+                    <p contenteditable="true" spellcheck="false" autocorrect="off">Periodo</p>
+                    <ul class="experience-list">
+                        <li class="experience-item" contenteditable="true" spellcheck="false" autocorrect="off">Responsabilità 1</li>
+                        <li class="experience-item" contenteditable="true" spellcheck="false" autocorrect="off">Responsabilità 2</li>
+                    </ul>
+                    <div class="skill-actions">
+                        <button class="btn-add" onclick="addExperience(this)">+ Punto</button>
+                        <button class="btn-remove" onclick="removeExperience(this)">- Punto</button>
+                    </div>
+                </div>
+            `;
+            
+            timeline.insertBefore(newItem, button);
+            setupEditableElementsInSection(newItem);
+            forceSaveToStorage();
+        }
+
+        function removeTimelineItem(button) {
+            if (confirm('Rimuovere questa esperienza?')) {
+                const item = button.closest('.timeline-item');
+                item.classList.add('section-removing');
+                setTimeout(() => {
+                    if (item.parentNode) {
+                        item.remove();
+                        forceSaveToStorage();
+                    }
+                }, 400);
+            }
+        }
+
+        function addTool(button) {
+            const toolCategory = button.closest('.tool-category');
+            const toolTags = toolCategory.querySelector('.tool-tags');
+            
+            const newTool = document.createElement('span');
+            newTool.className = 'tool-tag';
+            newTool.contentEditable = 'true';
+            newTool.textContent = 'Nuovo Tool';
+            
+            newTool.addEventListener('blur', handleContentChange);
+            newTool.addEventListener('input', handleContentChange);
+            
+            toolTags.appendChild(newTool);
+            newTool.focus();
+            forceSaveToStorage();
+        }
+
+        function removeTool(button) {
+            const toolCategory = button.closest('.tool-category');
+            const toolTags = toolCategory.querySelector('.tool-tags');
+            const tools = toolTags.querySelectorAll('.tool-tag');
+            
+            if (tools.length > 1) {
+                tools[tools.length - 1].remove();
+                forceSaveToStorage();
+            }
+        }
+
+        function addToolCategory(button) {
+            const toolsGrid = button.closest('.tools-grid');
+            
+            const newCategory = document.createElement('div');
+            newCategory.className = 'tool-category';
+            newCategory.innerHTML = `
+                <div class="card-management">
+                    <button class="card-btn" onclick="removeToolCategory(this)" title="Rimuovi categoria">×</button>
+                </div>
+                <h4 contenteditable="true" spellcheck="false" autocorrect="off">Nuova Categoria</h4>
+                <div class="tool-tags">
+                    <span class="tool-tag" contenteditable="true" spellcheck="false" autocorrect="off">Tool 1</span>
+                    <span class="tool-tag" contenteditable="true" spellcheck="false" autocorrect="off">Tool 2</span>
+                </div>
+                <div class="skill-actions">
+                    <button class="btn-add" onclick="addTool(this)">+ Tool</button>
+                    <button class="btn-remove" onclick="removeTool(this)">- Tool</button>
+                </div>
+            `;
+            
+            toolsGrid.insertBefore(newCategory, button);
+            setupEditableElementsInSection(newCategory);
+            forceSaveToStorage();
+        }
+
+        function removeToolCategory(button) {
+            if (confirm('Rimuovere questa categoria?')) {
+                const category = button.closest('.tool-category');
+                category.classList.add('section-removing');
+                setTimeout(() => {
+                    if (category.parentNode) {
+                        category.remove();
+                        forceSaveToStorage();
+                    }
+                }, 400);
+            }
+        }
+
+        // GESTIONE MODAL - CORRETTA E FUNZIONANTE
+        function showAddSectionModal() {
+            const modal = document.getElementById('addSectionModal');
+            modal.classList.add('show');
+            AppState.selectedSectionType = null;
+            
+            document.querySelectorAll('.section-type').forEach(type => {
+                type.classList.remove('selected');
+            });
+        }
+
+        function hideAddSectionModal() {
+            const modal = document.getElementById('addSectionModal');
+            modal.classList.remove('show');
+        }
+
+        function selectSectionType(element) {
+            document.querySelectorAll('.section-type').forEach(type => {
+                type.classList.remove('selected');
+            });
+            
+            element.classList.add('selected');
+            AppState.selectedSectionType = element.getAttribute('data-type');
+        }
+
+        // AGGIUNTA NUOVE SEZIONI - CORRETTA E FUNZIONANTE
+        function addNewSection() {
+            if (!AppState.selectedSectionType) {
+                alert('Seleziona un tipo di sezione!');
+                return;
+            }
+
+            const template = sectionTemplates[AppState.selectedSectionType];
+            if (!template) {
+                alert('Template non trovato!');
+                return;
+            }
+
+            AppState.sectionCounter++;
+            const sectionId = `${AppState.selectedSectionType}-${AppState.sectionCounter}`;
+
+            const newSection = document.createElement('section');
+            newSection.className = 'section dynamic-section';
+            newSection.setAttribute('data-section-id', sectionId);
+            newSection.innerHTML = `
+                <div class="section-management">
+                    <button class="section-btn move-up" onclick="moveSectionUp('${sectionId}')" title="Sposta Su">⬆</button>
+                    <button class="section-btn move-down" onclick="moveSectionDown('${sectionId}')" title="Sposta Giù">⬇</button>
+                    <button class="section-btn delete" onclick="deleteSection('${sectionId}')" title="Elimina">×</button>
+                </div>
+                <div class="container">
+                    <h2 class="section-title" contenteditable="true" data-key="${sectionId}-title" spellcheck="false" autocorrect="off">${template.title}</h2>
+                    ${template.content}
+                </div>
+            `;
+
+            const dynamicSections = document.getElementById('dynamicSections');
+            dynamicSections.appendChild(newSection);
+
+            AppState.sectionOrder.push(sectionId);
+            setupEditableElementsInSection(newSection);
+            hideAddSectionModal();
+            
+            // SALVATAGGIO IMMEDIATO CRITICO per nuove sezioni
+            forceSaveToStorage();
+            
+            setTimeout(() => {
+                newSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 200);
+        }
+
+        function setupEditableElementsInSection(section) {
+            const editableElements = section.querySelectorAll('[contenteditable="true"]');
+            editableElements.forEach(element => {
+                element.addEventListener('blur', handleContentChange);
+                element.addEventListener('input', handleContentChange);
+                
+                // Disabilita correzione automatica per i nuovi elementi
+                element.setAttribute('spellcheck', 'false');
+                element.setAttribute('autocorrect', 'off');
+                element.setAttribute('autocapitalize', 'off');
+                element.setAttribute('autocomplete', 'off');
+            });
+        }
+
+        // RIORDINO SEZIONI - CORRETTO E FUNZIONANTE
+        function moveSectionUp(sectionId) {
+            const currentIndex = AppState.sectionOrder.indexOf(sectionId);
+            if (currentIndex > 0) {
+                [AppState.sectionOrder[currentIndex], AppState.sectionOrder[currentIndex - 1]] = 
+                [AppState.sectionOrder[currentIndex - 1], AppState.sectionOrder[currentIndex]];
+                reorderSections();
+                // SALVATAGGIO IMMEDIATO
+                forceSaveToStorage();
+            }
+        }
+
+        function moveSectionDown(sectionId) {
+            const currentIndex = AppState.sectionOrder.indexOf(sectionId);
+            if (currentIndex < AppState.sectionOrder.length - 1) {
+                [AppState.sectionOrder[currentIndex], AppState.sectionOrder[currentIndex + 1]] = 
+                [AppState.sectionOrder[currentIndex + 1], AppState.sectionOrder[currentIndex]];
+                reorderSections();
+                // SALVATAGGIO IMMEDIATO
+                forceSaveToStorage();
+            }
+        }
+
+        function reorderSections() {
+            const dynamicSections = document.getElementById('dynamicSections');
+            const sections = {};
+            
+            dynamicSections.querySelectorAll('[data-section-id]').forEach(section => {
+                const sectionId = section.getAttribute('data-section-id');
+                sections[sectionId] = section;
+                section.remove();
+            });
+            
+            AppState.sectionOrder.forEach(sectionId => {
+                if (sections[sectionId]) {
+                    dynamicSections.appendChild(sections[sectionId]);
+                }
+            });
+        }
+
+        // ELIMINAZIONE SEZIONI - CORRETTA E FUNZIONANTE
+        function deleteSection(sectionId) {
+            const section = document.querySelector(`[data-section-id="${sectionId}"]`);
+            if (!section) {
+                return;
+            }
+            
+            if (section.classList.contains('section-removing')) {
+                return;
+            }
+            
+            // Verifica se c'è almeno una sezione rimanente
+            const allSections = document.querySelectorAll('.dynamic-section');
+            if (allSections.length <= 1) {
+                alert('Non puoi eliminare l\'ultima sezione rimasta!');
+                return;
+            }
+            
+            if (confirm('Sei sicuro di voler eliminare questa sezione?')) {
+                section.classList.add('section-removing');
+                
+                const buttons = section.querySelectorAll('button');
+                buttons.forEach(btn => btn.disabled = true);
+                
+                setTimeout(() => {
+                    if (section.parentNode) {
+                        section.remove();
+                        AppState.sectionOrder = AppState.sectionOrder.filter(id => id !== sectionId);
+                        
+                        // Rimuovi tutti i dati associati alla sezione
+                        Object.keys(AppState.portfolioData).forEach(key => {
+                            if (key.includes(sectionId)) {
+                                delete AppState.portfolioData[key];
+                            }
+                        });
+                        
+                        // Rimuovi dalla struttura dinamica
+                        if (AppState.dynamicContent[sectionId]) {
+                            delete AppState.dynamicContent[sectionId];
+                        }
+                        
+                        // SALVATAGGIO IMMEDIATO CRITICO
+                        forceSaveToStorage();
+                    }
+                }, 400);
+            }
+        }
+
+        // IMPORT/EXPORT rimossi come richiesto
+    </script>
+</body>
+</html>
